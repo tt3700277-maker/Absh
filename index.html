@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absher Perfect Clone</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --absher-green: #006837;
+            --light-green: #f3f8f6;
+            --white: #ffffff;
+            --gray-text: #6e6e6e;
+            --border-color: #e2e8e6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { background-color: var(--light-green); display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 480px; background: var(--light-green); position: relative; }
+
+        /* --- ১. লগইন ফ্লো স্ক্রিন --- */
+        #login-flow-container { background: var(--light-green); min-height: 100vh; padding: 20px; text-align: center; overflow-y: auto;}
+        .login-logo { margin: 40px 0 20px; height: 90px; }
+        .welcome-title { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 30px; }
+        .btn-login-main { background: var(--absher-green); color: white; padding: 18px; border-radius: 12px; width: 100%; font-size: 18px; border: none; font-weight: 700; cursor: pointer; }
+
+        #login-form { display: none; text-align: left; padding-top: 20px; }
+        .input-group { background: white; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 13px; color: var(--gray-text); margin-bottom: 5px; font-weight: 600; }
+        .input-group input { width: 100%; border: none; font-size: 18px; font-weight: 700; outline: none; }
+
+        /* Forgot Password Style */
+        .forgot-pass { color: var(--absher-green); font-weight: 700; text-align: center; margin-top: 20px; display: block; font-size: 15px; cursor: pointer; }
+
+        .public-services-wrap { margin-top: 40px; text-align: left; }
+        .public-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .public-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .public-box { background: var(--white); padding: 20px; border-radius: 18px; display: flex; flex-direction: column; gap: 10px; border: 1px solid #eee; }
+        .public-box i { font-size: 30px; color: var(--absher-green); }
+        .public-box span { font-weight: 700; font-size: 14.5px; color: #333; }
+
+        /* --- ২. মেইন অ্যাপ কন্টেন্ট --- */
+        #main-app-content { display: none; }
+        .page-content { display: none; width: 100%; padding-bottom: 110px; }
+        .page-content.active { display: block; }
+
+        .shared-header { padding: 20px; background: var(--light-green); }
+        .shared-title { font-size: 32px; font-weight: 800; color: #1a1a1a; margin: 10px 0 20px; }
+        .search-bar-container { background: #e6ecea; border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
+        .search-bar-container i { color: #888; font-size: 20px; }
+        .search-bar-container input { background: transparent; border: none; outline: none; font-size: 18px; color: #555; width: 100%; }
+
+        .home-header { background: var(--white); padding: 10px 20px 25px; border-bottom: 1px solid var(--border-color); }
+        .top-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo-box img { height: 40px; }
+        .header-btns { color: var(--absher-green); display: flex; gap: 20px; font-size: 24px; }
+        .profile-card-main { background: var(--white); border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; border: 1px solid #f0f0f0; }
+        .profile-card-main img { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; }
+        .profile-card-main h2 { font-size: 19px; font-weight: 700; color: #222; }
+        .profile-card-main p { font-size: 14px; color: var(--gray-text); }
+
+        .section-wrap { padding: 20px; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .flex-between h3 { font-size: 20px; font-weight: 700; color: #1a1a1a; }
+        .see-all-btn { color: var(--absher-green); text-decoration: none; font-weight: 600; cursor: pointer; }
+
+        .digital-doc { background: linear-gradient(135deg, #fff9e6 0%, #faecd1 100%); border-radius: 18px; height: 115px; padding: 22px; position: relative; border: 1.5px solid #efe0c5; cursor: pointer; }
+        .digital-doc span { font-weight: 700; font-size: 17px; }
+        .watermark-img { position: absolute; right: 10px; bottom: 0; width: 110px; opacity: 0.12; }
+
+        .info-note { display: flex; gap: 10px; margin-top: 15px; color: #5d6d66; font-size: 13px; line-height: 1.4; }
+        .info-note i { color: #1976d2; font-size: 16px; }
+
+        .vehicle-card { background: var(--white); padding: 20px; border-radius: 18px; display: flex; align-items: center; gap: 18px; margin-bottom: 15px; }
+        .vehicle-card i { font-size: 38px; color: var(--absher-green); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .service-box { background: var(--white); padding: 22px; border-radius: 18px; display: flex; flex-direction: column; gap: 12px; cursor: pointer; }
+        .service-box i { font-size: 34px; color: var(--absher-green); }
+        .service-box span { font-weight: 700; font-size: 15.5px; color: #222; }
+
+        /* --- My Services Screen --- */
+        .services-grid-new { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .service-card-new { background: var(--white); border-radius: 15px; padding: 20px; min-height: 140px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px; border: 1px solid #f0f0f0; }
+        .service-card-new i { font-size: 32px; color: var(--absher-green); }
+        .service-card-new span { font-size: 16px; font-weight: 700; color: #333; line-height: 1.2; }
+
+        /* --- Empty States --- */
+        .empty-state-container { text-align: center; padding: 60px 20px; color: #333; }
+        .empty-state-container i.main-icon { font-size: 80px; color: #6e6e6e; margin-bottom: 30px; display: block; opacity: 0.5; }
+        .empty-state-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+        .empty-state-container p { font-size: 16px; color: #7a7a7a; line-height: 1.5; max-width: 280px; margin: 0 auto; }
+
+        /* --- প্রোফাইল ওভারলে --- */
+        #profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--light-green); z-index: 2000; display: none; overflow-y: auto; }
+        .overlay-header { background: var(--white); margin: 65px 18px 20px; border-radius: 22px; padding: 55px 15px 25px; text-align: center; position: relative; }
+        .float-user-img { width: 95px; height: 95px; border-radius: 16px; position: absolute; top: -47px; left: 50%; transform: translateX(-50%); border: 4px solid var(--white); object-fit: cover; box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+        .back-icon { position: absolute; top: -45px; left: 0; color: var(--absher-green); font-size: 28px; cursor: pointer; padding: 5px; }
+        .row-item { background: var(--white); margin: 0 18px 15px; padding: 22px; border-radius: 18px; display: flex; align-items: center; gap: 18px; cursor: pointer; }
+        .row-item i { font-size: 30px; color: var(--absher-green); width: 35px; text-align: center; }
+        .row-item span { font-weight: 700; font-size: 17px; }
+        .banner-travel { margin: 0 18px 15px; height: 150px; border-radius: 20px; background: linear-gradient(to right, rgba(0,104,55,0.85), rgba(0,148,68,0.7)), url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=500&auto=format&fit=crop'); background-size: cover; color: var(--white); padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+        .status-pill { position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,0.95); color: #333; padding: 5px 14px; border-radius: 25px; font-size: 12px; font-weight: 800; }
+
+        /* --- ডিটেইলস স্ক্রিনসমূহ --- */
+        .detail-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--light-green); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 100px; }
+        .detail-header-new { background: var(--white); padding: 45px 15px 15px; display: flex; align-items: center; gap: 20px; }
+        .detail-header-new i { font-size: 22px; color: var(--absher-green); cursor: pointer; }
+        .detail-header-new h2 { font-size: 21px; font-weight: 600; color: #333; }
+        .amount-card { background: var(--white); margin: 15px; padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .amount-card p { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 5px; }
+        .amount-card h4 { font-size: 17px; color: var(--gray-text); font-weight: 500; }
+        .info-container-main { background: var(--white); margin: 15px; border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; }
+        .info-card-header { padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f2f2f2; }
+        .info-card-header .left-side { display: flex; align-items: center; gap: 15px; }
+        .info-card-header i { font-size: 28px; color: var(--gray-text); }
+        .info-card-header span { font-size: 19px; font-weight: 700; color: #222; }
+        .info-content-body { padding: 20px; }
+        .data-group { margin-bottom: 25px; position: relative; }
+        .data-group:last-child { margin-bottom: 0; }
+        .data-label { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 6px; display: block; }
+        .data-value { font-size: 16px; color: var(--gray-text); font-weight: 500; display: block; }
+        .copy-icon-btn { position: absolute; right: 0; top: 10px; color: var(--absher-green); font-size: 18px; }
+
+        /* --- ৮. See All পেজ (Digital Documents) --- */
+        #see-all-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fdfdfd; z-index: 4500; display: none; overflow-y: auto; }
+        .see-all-header { background: white; padding: 45px 15px 15px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #eee; }
+        .see-all-content { padding: 20px; text-align: center; }
+        .update-info { color: #888; font-size: 13px; margin-bottom: 30px; line-height: 1.5; }
+        .resident-id-title { text-align: left; font-size: 22px; font-weight: 800; color: #222; margin-bottom: 20px; }
+        .main-card-img { width: 100%; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+
+        /* --- ৯. ডিজিটাল আইডি ইমেজ ভিউয়ার (আড়াআড়ি ও কিউআর) --- */
+        #digital-id-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #333333; z-index: 5000; display: none; overflow-y: auto; }
+        .viewer-header { padding: 20px; position: sticky; top: 0; z-index: 10; }
+        .viewer-header i { color: white; font-size: 28px; cursor: pointer; }
+        .viewer-content { display: flex; flex-direction: column; align-items: center; padding: 0 15px 150px; }
+        .id-card-img-landscape { width: 100%; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .qr-card-img-scroll { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        /* --- বটম নেভিগেশন --- */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0 28px; border-top: 1px solid var(--border-color); z-index: 4000; }
+        .nav-item { text-align: center; color: #9da8a4; text-decoration: none; font-size: 11px; font-weight: 700; flex: 1; border: none; background: none; cursor: pointer; transition: 0.3s; }
+        .nav-item i { font-size: 22px; margin-bottom: 6px; display: block; }
+        .nav-item.active { color: var(--absher-green); }
+
+        .fab-msg { position: fixed; bottom: 105px; right: 20px; background: #004d30; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; box-shadow: 0 5px 15px rgba(0,0,0,0.25); z-index: 1000; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div id="login-flow-container">
+            <div style="text-align: right; color: var(--absher-green); font-size: 24px;"><i class="fa-solid fa-gear"></i> <i class="fa-solid fa-bell" style="margin-left: 15px;"></i></div>
+            <img src="https://i.postimg.cc/3Jphft4m/Picsart-25-12-26-13-57-11-843.png" class="login-logo">
+            <div id="initial-login-view">
+                <h1 class="welcome-title">Absher E-Services 24/7</h1>
+                <button class="btn-login-main" onclick="showLoginForm()">Log In</button>
+                <div class="public-services-wrap">
+                    <div class="public-title"><h3>Public Services</h3><span style="color:var(--absher-green); font-weight:700;">See All</span></div>
+                    <div class="public-grid">
+                        <div class="public-box"><i class="fa-solid fa-fingerprint"></i><span>Authentication Services</span></div>
+                        <div class="public-box"><i class="fa-solid fa-calendar-check"></i><span>Appointments</span></div>
+                        <div class="public-box"><i class="fa-solid fa-file-circle-question"></i><span>General Queries</span></div>
+                        <div class="public-box"><i class="fa-solid fa-qrcode"></i><span>View Digital Documents</span></div>
+                    </div>
+                </div>
+            </div>
+            <div id="login-form">
+                <h2 style="text-align: center; font-size: 26px; margin-bottom: 30px;">Log In to Absher</h2>
+                <div class="input-group"><label>Username or ID Number</label><input type="text" id="akamaId" placeholder="Enter ID Number"></div>
+                <div class="input-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+                <button class="btn-login-main" id="loginBtn" onclick="handleSecureLogin()">Log In</button>
+                <span class="forgot-pass">Forgot Password?</span>
+            </div>
+        </div>
+
+        <div id="main-app-content">
+            <div id="home-page" class="page-content active">
+                <header class="home-header">
+                    <div class="top-status">
+                        <div class="logo-box"><img src="https://i.postimg.cc/3Jphft4m/Picsart-25-12-26-13-57-11-843.png"></div>
+                        <div class="header-btns"><i class="fa-solid fa-gear"></i><i class="fa-solid fa-bell"></i></div>
+                    </div>
+                    <div class="profile-card-main" onclick="toggleProfile(true)">
+                        <img src="" id="user-img-main">
+                        <div class="profile-text"><h2 id="user-name-main">Loading...</h2><p id="user-id-main">ID No.: ---</p></div>
+                    </div>
+                </header>
+                <div class="section-wrap">
+                    <div class="flex-between"><h3>My Digital Documents</h3><a href="#" class="see-all-btn" onclick="openSeeAllPage()">See All</a></div>
+                    <div class="digital-doc" onclick="openDigitalID()">
+                        <span>Resident ID</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Saudi_Arabia_Coat_of_arms.svg" class="watermark-img">
+                    </div>
+                    <div class="info-note"><i class="fa-solid fa-circle-info"></i><p>Your most relevant documents. Tap See All to see the rest.</p></div>
+                </div>
+                <div class="section-wrap">
+                    <h3 style="margin-bottom: 18px;">Quick Access</h3>
+                    <div class="vehicle-card"><i class="fa-solid fa-car-side"></i><div><h4>My Vehicles</h4><p>View details, renew documents, and more.</p></div></div>
+                    <div class="grid-2">
+                        <div class="service-box"><i class="fa-solid fa-fingerprint"></i><span>Authentication Services</span></div>
+                        <div class="service-box"><i class="fa-solid fa-map-location-dot"></i><span>Absher Travel</span></div>
+                        <div class="service-box"><i class="fa-solid fa-car-burst"></i><span>Report Accident</span></div>
+                        <div class="service-box"><i class="fa-solid fa-file-circle-exclamation"></i><span>Traffic Violations</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="my-services-page" class="page-content">
+                <div class="shared-header">
+                    <div class="top-status"><div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4b/Saudi_Arabia_Coat_of_arms.svg/1200px-Saudi_Arabia_Coat_of_arms.svg.png"></div><div class="header-btns"><i class="fa-solid fa-gear"></i><i class="fa-solid fa-bell"></i></div></div>
+                    <h1 class="shared-title">My Services</h1>
+                    <div class="search-bar-container"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by Service..."></div>
+                </div>
+                <div class="services-grid-new">
+                    <div class="service-card-new"><i class="fa-solid fa-baby"></i><span>Register Newborn</span></div>
+                    <div class="service-card-new"><i class="fa-solid fa-address-card"></i><span>Renew Driving License</span></div>
+                    <div class="service-card-new"><i class="fa-solid fa-id-card"></i><span>Renew Resident ID</span></div>
+                    <div class="service-card-new"><i class="fa-solid fa-fingerprint"></i><span>Authentication Services</span></div>
+                    <div class="service-card-new"><i class="fa-solid fa-images"></i><span>Change Resident Photo</span></div>
+                    <div class="service-card-new"><i class="fa-solid fa-car-on"></i><span>Report Minor Accident</span></div>
+                </div>
+            </div>
+
+            <div id="family-page" class="page-content">
+                <div class="shared-header"><h1 class="shared-title">Family Members</h1></div>
+                <div class="empty-state-container"><i class="fa-solid fa-users main-icon"></i><h2>No Family Members</h2><p>You haven't added any family members yet.</p></div>
+            </div>
+
+            <div id="workers-page" class="page-content">
+                <div class="shared-header"><h1 class="shared-title">Workers</h1></div>
+                <div class="empty-state-container"><i class="fa-solid fa-briefcase main-icon"></i><h2>No Workers</h2><p>There are no workers registered under your ID.</p></div>
+            </div>
+
+            <div id="see-all-page">
+                <div class="see-all-header"><i class="fa-solid fa-arrow-left" style="color:var(--absher-green); font-size:24px; cursor:pointer;" onclick="closeSeeAllPage()"></i><h2 style="font-size:20px;">Digital Documents</h2></div>
+                <div class="see-all-content">
+                    <p class="update-info">Last updated: Thursday 25 December 2025 2:10 PM <br> Pull to update.</p>
+                    <h3 class="resident-id-title">Resident ID</h3>
+                    <img src="" id="main-card-display" class="main-card-img">
+                </div>
+            </div>
+
+            <div id="digital-id-viewer">
+                <div class="viewer-header"><i class="fa-solid fa-xmark" onclick="closeDigitalID()"></i></div>
+                <div class="viewer-content">
+                    <img src="" class="id-card-img-landscape" id="id-img-view">
+                    <img src="" class="qr-card-img-scroll" id="qr-img-view">
+                </div>
+            </div>
+
+            <div id="profile-overlay">
+                <div class="overlay-header">
+                    <i class="fa-solid fa-arrow-left back-icon" onclick="toggleProfile(false)"></i>
+                    <img src="" class="float-user-img" id="user-img-overlay">
+                    <h2 id="user-name-overlay">---</h2><p>ID No. <span id="user-id-overlay">---</span> <i class="fa-regular fa-copy"></i></p>
+                    <a href="#" style="color:var(--absher-green); text-decoration:none; font-weight:700; display:block; margin-top:15px;">My Personal Details ></a>
+                </div>
+                <div class="grid-2" style="padding: 0 18px 15px;">
+                    <div class="service-box" onclick="showDetail('passport')"><i class="fa-solid fa-passport"></i><span>My Passport</span></div>
+                    <div class="service-box" onclick="showDetail('resident')"><i class="fa-solid fa-id-card-clip"></i><span>My Resident ID</span></div>
+                </div>
+                <div class="row-item"><i class="fa-solid fa-file-invoice"></i><span>My Visa</span></div>
+                <div class="row-item"><i class="fa-solid fa-id-card"></i><span>My Driving License</span></div>
+                <div class="banner-travel"><div class="status-pill">Inside Kingdom</div><h3>My Travel Records</h3><p>Find your last trips details</p></div>
+                <div class="row-item" style="margin-bottom: 120px;"><i class="fa-solid fa-users-gear"></i><span>Labor Importations</span></div>
+            </div>
+
+            <div id="passport-detail" class="detail-screen">
+                <div class="detail-header-new"><i class="fa-solid fa-arrow-left" onclick="hideDetail('passport-detail')"></i><h2>My Passport</h2></div>
+                <div class="amount-card"><p>Amount deposit</p><h4 id="pass-deposit">SAR 0.00</h4></div>
+                <div class="info-container-main">
+                    <div class="info-card-header"><div class="left-side"><i class="fa-solid fa-passport"></i><span>Normal Passport</span></div><i class="fa-solid fa-chevron-up" style="font-size: 16px;"></i></div>
+                    <div class="info-content-body">
+                        <div class="data-group"><span class="data-label">Passport Number</span><span class="data-value" id="pass-num">---</span></div>
+                        <div class="data-group"><span class="data-label">Type</span><span class="data-value" id="pass-type">Normal</span></div>
+                        <div class="data-group"><span class="data-label">Issuing Date</span><span class="data-value" id="pass-issue-date">---</span></div>
+                        <div class="data-group"><span class="data-label">Expiry Date</span><span class="data-value" id="pass-expiry-date">---</span></div>
+                        <div class="data-group"><span class="data-label">Issuing City</span><span class="data-value" id="pass-city">---</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resident-detail" class="detail-screen">
+                <div class="detail-header-new"><i class="fa-solid fa-arrow-left" onclick="hideDetail('resident-detail')"></i><h2>My Resident ID</h2></div>
+                <div class="info-container-main" style="margin-top: 25px;">
+                    <div class="info-card-header" style="border-bottom: none;"><div class="left-side"><i class="fa-solid fa-id-card"></i><span>My Resident ID</span></div></div>
+                    <div class="info-content-body" style="padding-top: 0;">
+                        <div class="data-group"><span class="data-label">Resident ID Number</span><span class="data-value" id="res-id-val">---</span></div>
+                        <div class="data-group"><span class="data-label">ID Version</span><span class="data-value" id="res-ver">1</span></div>
+                        <div class="data-group"><span class="data-label">Issuing Date</span><span class="data-value" id="res-iss-date">---</span></div>
+                        <div class="data-group"><span class="data-label">Expiry Date</span><span class="data-value" id="res-exp-date">---</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <button onclick="switchTab('home-page', this)" class="nav-item active"><i class="fa-solid fa-house-chimney"></i>Home</button>
+                <button onclick="switchTab('my-services-page', this)" class="nav-item"><i class="fa-regular fa-id-badge"></i>My Services</button>
+                <button onclick="switchTab('family-page', this)" class="nav-item"><i class="fa-solid fa-users-viewfinder"></i>Family</button>
+                <button onclick="switchTab('workers-page', this)" class="nav-item"><i class="fa-solid fa-briefcase"></i>Workers</button>
+                <button class="nav-item"><i class="fa-solid fa-table-cells-large"></i>Other</button>
+            </nav>
+            <div class="fab-msg"><i class="fa-solid fa-comment-dots"></i></div>
+        </div>
+    </div>
+
+    <script>
+        const S_URL = 'https://rpxifsrlavmqhjtcezlv.supabase.co';
+        const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJweGlmc3JsYXZtcWhqdGNlemx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzkxMDgsImV4cCI6MjA4MTQxNTEwOH0.uIsVuMypVVxU19cyzRw_c8Y964_fXx-uTA3C2kux6Rw';
+        const _supabase = supabase.createClient(S_URL, S_KEY);
+
+        // লগইন লজিক পরিবর্তন (Real Admin Control)
+        async function handleSecureLogin() {
+            const idInput = document.getElementById('akamaId').value;
+            const passInput = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            if(!idInput || !passInput) { alert("Please fill all fields"); return; }
+            
+            loginBtn.innerText = "Verifying...";
+            
+            // ডাটাবেস থেকে আইডি এবং পাসওয়ার্ড ম্যাচ করা
+            const { data, error } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('id_number', idInput)
+                .eq('password', passInput)
+                .single();
+
+            if (error || !data) {
+                alert("Invalid ID or Password! Access Denied.");
+                loginBtn.innerText = "Log In";
+            } else {
+                // লগইন কাউন্ট বাড়ানো
+                const newCount = (data.login_count || 0) + 1;
+                await _supabase.from('profiles').update({ login_count: newCount }).eq('id_number', idInput);
+                
+                // অ্যাপে ডাটা সেট করা
+                setUserData(data);
+                startApp();
+            }
+        }
+
+        function setUserData(data) {
+            document.getElementById('user-name-main').innerText = data.full_name;
+            document.getElementById('user-name-overlay').innerText = data.full_name;
+            document.getElementById('user-id-main').innerText = "ID No.: " + data.id_number;
+            document.getElementById('user-id-overlay').innerText = data.id_number;
+            document.getElementById('user-img-main').src = data.profile_pic_url;
+            document.getElementById('user-img-overlay').src = data.profile_pic_url;
+            document.getElementById('res-id-val').innerText = data.id_number;
+            document.getElementById('res-ver').innerText = data.res_version;
+            document.getElementById('res-iss-date').innerText = data.res_issue_date;
+            document.getElementById('res-exp-date').innerText = data.res_expiry_date;
+            document.getElementById('pass-deposit').innerText = data.pass_amount;
+            document.getElementById('pass-num').innerText = data.pass_num;
+            document.getElementById('pass-issue-date').innerText = data.pass_issue_date;
+            document.getElementById('pass-expiry-date').innerText = data.pass_expiry_date;
+            document.getElementById('pass-city').innerText = data.pass_issue_city;
+            document.getElementById('main-card-display').src = data.id_card_image;
+            document.getElementById('id-img-view').src = data.id_card_image;
+            document.getElementById('qr-img-view').src = data.qr_card_image;
+        }
+
+        function showLoginForm() { document.getElementById('initial-login-view').style.display = 'none'; document.getElementById('login-form').style.display = 'block'; }
+        function startApp() { document.getElementById('login-flow-container').style.display = 'none'; document.getElementById('main-app-content').style.display = 'block'; }
+        function toggleProfile(show) { document.getElementById('profile-overlay').style.display = show ? 'block' : 'none'; }
+        function showDetail(type) { if(type === 'passport') document.getElementById('passport-detail').style.display = 'block'; if(type === 'resident') document.getElementById('resident-detail').style.display = 'block'; }
+        function hideDetail(id) { document.getElementById(id).style.display = 'none'; }
+        function openSeeAllPage() { document.getElementById('see-all-page').style.display = 'block'; }
+        function closeSeeAllPage() { document.getElementById('see-all-page').style.display = 'none'; }
+        function openDigitalID() { document.getElementById('digital-id-viewer').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function closeDigitalID() { document.getElementById('digital-id-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            toggleProfile(false);
+            hideDetail('passport-detail');
+            hideDetail('resident-detail');
+            closeDigitalID();
+            closeSeeAllPage();
+        }
+    </script>
+</body>
+</html>
