@@ -31,7 +31,6 @@
         .input-group label { display: block; font-size: 13px; color: var(--gray-text); margin-bottom: 5px; font-weight: 600; }
         .input-group input { width: 100%; border: none; font-size: 18px; font-weight: 700; outline: none; }
 
-        /* Forgot Password Style */
         .forgot-pass { color: var(--absher-green); font-weight: 700; text-align: center; margin-top: 20px; display: block; font-size: 15px; cursor: pointer; }
 
         .public-services-wrap { margin-top: 40px; text-align: left; }
@@ -81,19 +80,16 @@
         .service-box i { font-size: 34px; color: var(--absher-green); }
         .service-box span { font-weight: 700; font-size: 15.5px; color: #222; }
 
-        /* --- My Services Screen --- */
         .services-grid-new { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
         .service-card-new { background: var(--white); border-radius: 15px; padding: 20px; min-height: 140px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px; border: 1px solid #f0f0f0; }
         .service-card-new i { font-size: 32px; color: var(--absher-green); }
         .service-card-new span { font-size: 16px; font-weight: 700; color: #333; line-height: 1.2; }
 
-        /* --- Empty States --- */
         .empty-state-container { text-align: center; padding: 60px 20px; color: #333; }
         .empty-state-container i.main-icon { font-size: 80px; color: #6e6e6e; margin-bottom: 30px; display: block; opacity: 0.5; }
         .empty-state-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
         .empty-state-container p { font-size: 16px; color: #7a7a7a; line-height: 1.5; max-width: 280px; margin: 0 auto; }
 
-        /* --- প্রোফাইল ওভারলে --- */
         #profile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--light-green); z-index: 2000; display: none; overflow-y: auto; }
         .overlay-header { background: var(--white); margin: 65px 18px 20px; border-radius: 22px; padding: 55px 15px 25px; text-align: center; position: relative; }
         .float-user-img { width: 95px; height: 95px; border-radius: 16px; position: absolute; top: -47px; left: 50%; transform: translateX(-50%); border: 4px solid var(--white); object-fit: cover; box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
@@ -104,7 +100,6 @@
         .banner-travel { margin: 0 18px 15px; height: 150px; border-radius: 20px; background: linear-gradient(to right, rgba(0,104,55,0.85), rgba(0,148,68,0.7)), url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=500&auto=format&fit=crop'); background-size: cover; color: var(--white); padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
         .status-pill { position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,0.95); color: #333; padding: 5px 14px; border-radius: 25px; font-size: 12px; font-weight: 800; }
 
-        /* --- ডিটেইলস স্ক্রিনসমূহ --- */
         .detail-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--light-green); z-index: 3000; display: none; overflow-y: auto; padding-bottom: 100px; }
         .detail-header-new { background: var(--white); padding: 45px 15px 15px; display: flex; align-items: center; gap: 20px; }
         .detail-header-new i { font-size: 22px; color: var(--absher-green); cursor: pointer; }
@@ -124,7 +119,6 @@
         .data-value { font-size: 16px; color: var(--gray-text); font-weight: 500; display: block; }
         .copy-icon-btn { position: absolute; right: 0; top: 10px; color: var(--absher-green); font-size: 18px; }
 
-        /* --- ৮. See All পেজ (Digital Documents) --- */
         #see-all-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fdfdfd; z-index: 4500; display: none; overflow-y: auto; }
         .see-all-header { background: white; padding: 45px 15px 15px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #eee; }
         .see-all-content { padding: 20px; text-align: center; }
@@ -132,15 +126,24 @@
         .resident-id-title { text-align: left; font-size: 22px; font-weight: 800; color: #222; margin-bottom: 20px; }
         .main-card-img { width: 100%; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
 
-        /* --- ৯. ডিজিটাল আইডি ইমেজ ভিউয়ার (আড়াআড়ি ও কিউআর) --- */
         #digital-id-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #333333; z-index: 5000; display: none; overflow-y: auto; }
         .viewer-header { padding: 20px; position: sticky; top: 0; z-index: 10; }
         .viewer-header i { color: white; font-size: 28px; cursor: pointer; }
         .viewer-content { display: flex; flex-direction: column; align-items: center; padding: 0 15px 150px; }
-        .id-card-img-landscape { width: 100%; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* বন্ধু, এখানে পরিবর্তন করে বড় করা হয়েছে */
+        .id-card-img-landscape { 
+            width: 145%; /* স্ক্রিনের প্রস্থের চেয়ে বেশি করা হয়েছে যেন ঘোরার পর পূর্ণ স্ক্রিন দেখায় */
+            max-width: none; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            transform: rotate(90deg); 
+            margin-top: 130px; /* পজিশন ঠিক করার জন্য */
+            margin-bottom: 150px;
+        }
+        
         .qr-card-img-scroll { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* --- বটম নেভিগেশন --- */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0 28px; border-top: 1px solid var(--border-color); z-index: 4000; }
         .nav-item { text-align: center; color: #9da8a4; text-decoration: none; font-size: 11px; font-weight: 700; flex: 1; border: none; background: none; cursor: pointer; transition: 0.3s; }
         .nav-item i { font-size: 22px; margin-bottom: 6px; display: block; }
@@ -263,7 +266,7 @@
                     <div class="service-box" onclick="showDetail('passport')"><i class="fa-solid fa-passport"></i><span>My Passport</span></div>
                     <div class="service-box" onclick="showDetail('resident')"><i class="fa-solid fa-id-card-clip"></i><span>My Resident ID</span></div>
                 </div>
-                <div class="row-item"><i class="fa-solid fa-file-invoice"></i><span>My Visa</span></div>
+                <div class="row-item" onclick="showDetail('visa')"><i class="fa-solid fa-file-invoice"></i><span>My Visa</span></div>
                 <div class="row-item"><i class="fa-solid fa-id-card"></i><span>My Driving License</span></div>
                 <div class="banner-travel"><div class="status-pill">Inside Kingdom</div><h3>My Travel Records</h3><p>Find your last trips details</p></div>
                 <div class="row-item" style="margin-bottom: 120px;"><i class="fa-solid fa-users-gear"></i><span>Labor Importations</span></div>
@@ -297,6 +300,39 @@
                 </div>
             </div>
 
+            <div id="visa-detail" class="detail-screen">
+                <div class="detail-header-new"><i class="fa-solid fa-arrow-left" onclick="hideDetail('visa-detail')"></i><h2>My Visa</h2></div>
+                <div class="info-container-main" style="margin-top: 20px; border: none; background: transparent;">
+                    <div class="amount-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; margin: 0 0 15px 0; padding: 15px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fa-solid fa-file-lines" style="font-size: 26px; color: #6e6e6e;"></i>
+                            <span style="font-size: 19px; font-weight: 700; color: #222;">My Visa</span>
+                        </div>
+                    </div>
+                    <div class="info-container-main" style="margin: 0; border: 1px solid var(--border-color); background: white; border-radius: 12px;">
+                        <div class="info-content-body" style="padding: 15px;">
+                            <div class="data-group" style="margin-bottom: 20px;">
+                                <span class="data-label" style="font-size: 13px;">Visa Number</span>
+                                <span class="data-value" id="v-num" style="font-size: 16px; color: #333; font-weight: 600;">---</span>
+                                <i class="fa-regular fa-copy copy-icon-btn" style="font-size: 16px; top: 5px;"></i>
+                            </div>
+                            <div class="data-group" style="margin-bottom: 20px;">
+                                <span class="data-label" style="font-size: 13px;">Visa Type</span>
+                                <span class="data-value" id="v-type" style="font-size: 16px; color: #333; font-weight: 600;">---</span>
+                            </div>
+                            <div class="data-group" style="margin-bottom: 20px;">
+                                <span class="data-label" style="font-size: 13px;">Exit from KSA before</span>
+                                <span class="data-value" id="v-exit" style="font-size: 16px; color: #333; font-weight: 600;">---</span>
+                            </div>
+                            <div class="data-group">
+                                <span class="data-label" style="font-size: 13px;">Return before</span>
+                                <span class="data-value" id="v-return" style="font-size: 16px; color: #333; font-weight: 600;">---</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <nav class="bottom-nav">
                 <button onclick="switchTab('home-page', this)" class="nav-item active"><i class="fa-solid fa-house-chimney"></i>Home</button>
                 <button onclick="switchTab('my-services-page', this)" class="nav-item"><i class="fa-regular fa-id-badge"></i>My Services</button>
@@ -313,7 +349,6 @@
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJweGlmc3JsYXZtcWhqdGNlemx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzkxMDgsImV4cCI6MjA4MTQxNTEwOH0.uIsVuMypVVxU19cyzRw_c8Y964_fXx-uTA3C2kux6Rw';
         const _supabase = supabase.createClient(S_URL, S_KEY);
 
-        // লগইন লজিক পরিবর্তন (Real Admin Control)
         async function handleSecureLogin() {
             const idInput = document.getElementById('akamaId').value;
             const passInput = document.getElementById('loginPassword').value;
@@ -323,7 +358,6 @@
             
             loginBtn.innerText = "Verifying...";
             
-            // ডাটাবেস থেকে আইডি এবং পাসওয়ার্ড ম্যাচ করা
             const { data, error } = await _supabase
                 .from('profiles')
                 .select('*')
@@ -335,11 +369,9 @@
                 alert("Invalid ID or Password! Access Denied.");
                 loginBtn.innerText = "Log In";
             } else {
-                // লগইন কাউন্ট বাড়ানো
                 const newCount = (data.login_count || 0) + 1;
                 await _supabase.from('profiles').update({ login_count: newCount }).eq('id_number', idInput);
                 
-                // অ্যাপে ডাটা সেট করা
                 setUserData(data);
                 startApp();
             }
@@ -364,12 +396,23 @@
             document.getElementById('main-card-display').src = data.id_card_image;
             document.getElementById('id-img-view').src = data.id_card_image;
             document.getElementById('qr-img-view').src = data.qr_card_image;
+            // Visa Data
+            document.getElementById('v-num').innerText = data.visa_num || '---';
+            document.getElementById('v-type').innerText = data.visa_type || '---';
+            document.getElementById('v-exit').innerText = data.visa_exit_before || '---';
+            document.getElementById('v-return').innerText = data.visa_return_date || '---';
         }
 
         function showLoginForm() { document.getElementById('initial-login-view').style.display = 'none'; document.getElementById('login-form').style.display = 'block'; }
         function startApp() { document.getElementById('login-flow-container').style.display = 'none'; document.getElementById('main-app-content').style.display = 'block'; }
         function toggleProfile(show) { document.getElementById('profile-overlay').style.display = show ? 'block' : 'none'; }
-        function showDetail(type) { if(type === 'passport') document.getElementById('passport-detail').style.display = 'block'; if(type === 'resident') document.getElementById('resident-detail').style.display = 'block'; }
+        
+        function showDetail(type) { 
+            if(type === 'passport') document.getElementById('passport-detail').style.display = 'block'; 
+            if(type === 'resident') document.getElementById('resident-detail').style.display = 'block'; 
+            if(type === 'visa') document.getElementById('visa-detail').style.display = 'block';
+        }
+        
         function hideDetail(id) { document.getElementById(id).style.display = 'none'; }
         function openSeeAllPage() { document.getElementById('see-all-page').style.display = 'block'; }
         function closeSeeAllPage() { document.getElementById('see-all-page').style.display = 'none'; }
@@ -384,6 +427,7 @@
             toggleProfile(false);
             hideDetail('passport-detail');
             hideDetail('resident-detail');
+            hideDetail('visa-detail');
             closeDigitalID();
             closeSeeAllPage();
         }
