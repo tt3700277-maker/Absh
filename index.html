@@ -131,14 +131,13 @@
         .viewer-header i { color: white; font-size: 28px; cursor: pointer; }
         .viewer-content { display: flex; flex-direction: column; align-items: center; padding: 0 15px 150px; }
         
-        /* বন্ধু, এখানে পরিবর্তন করে বড় করা হয়েছে */
         .id-card-img-landscape { 
-            width: 145%; /* স্ক্রিনের প্রস্থের চেয়ে বেশি করা হয়েছে যেন ঘোরার পর পূর্ণ স্ক্রিন দেখায় */
+            width: 145%; 
             max-width: none; 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transform: rotate(90deg); 
-            margin-top: 130px; /* পজিশন ঠিক করার জন্য */
+            margin-top: 130px; 
             margin-bottom: 150px;
         }
         
@@ -241,7 +240,7 @@
             <div id="see-all-page">
                 <div class="see-all-header"><i class="fa-solid fa-arrow-left" style="color:var(--absher-green); font-size:24px; cursor:pointer;" onclick="closeSeeAllPage()"></i><h2 style="font-size:20px;">Digital Documents</h2></div>
                 <div class="see-all-content">
-                    <p class="update-info">Last updated: Saturday 03 January 2026 7:10 AM <br> Pull to update.</p>
+                    <p class="update-info" id="last-update-text">Pull to update.</p>
                     <h3 class="resident-id-title">Resident ID</h3>
                     <img src="" id="main-card-display" class="main-card-img">
                 </div>
@@ -260,7 +259,7 @@
                     <i class="fa-solid fa-arrow-left back-icon" onclick="toggleProfile(false)"></i>
                     <img src="" class="float-user-img" id="user-img-overlay">
                     <h2 id="user-name-overlay">---</h2><p>ID No. <span id="user-id-overlay">---</span> <i class="fa-regular fa-copy"></i></p>
-                    <a href="#" style="color:var(--absher-green); text-decoration:none; font-weight:700; display:block; margin-top:15px;">My Personal Details ></a>
+                    <a href="#" onclick="showDetail('personal')" style="color:var(--absher-green); text-decoration:none; font-weight:700; display:block; margin-top:15px;">My Personal Details ></a>
                 </div>
                 <div class="grid-2" style="padding: 0 18px 15px;">
                     <div class="service-box" onclick="showDetail('passport')"><i class="fa-solid fa-passport"></i><span>My Passport</span></div>
@@ -333,6 +332,75 @@
                 </div>
             </div>
 
+            <div id="personal-details-screen" class="detail-screen">
+                <div class="detail-header-new">
+                    <i class="fa-solid fa-arrow-left" onclick="hideDetail('personal-details-screen')"></i>
+                    <h2>My Personal Details</h2>
+                </div>
+                <div style="background: white; margin: 15px 15px 0 15px; padding: 15px; border-radius: 12px 12px 0 0; display: flex; align-items: center; gap: 15px; border: 1px solid var(--border-color); border-bottom: none;">
+                    <img src="" id="det-profile-img" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 1px solid #eee;">
+                    <span style="font-size: 17px; font-weight: 700; color: #333;">Personal Details</span>
+                </div>
+                <div class="info-container-main" style="margin-top: 0; border-radius: 0 0 12px 12px; border-top: 1px solid #f2f2f2; margin-bottom: 10px;">
+                    <div class="info-content-body">
+                        <div class="data-group"><span class="data-label">Name</span><span class="data-value" id="det-name">---</span></div>
+                        <div class="data-group"><span class="data-label">Birth City</span><span class="data-value" id="det-city">-</span></div>
+                        <div class="data-group"><span class="data-label">Birth Country/Region</span><span class="data-value" id="det-country">Bangladesh</span></div>
+                        <div class="data-group"><span class="data-label">Date of Birth</span><span class="data-value" id="det-dob">---</span></div>
+                        <div class="data-group"><span class="data-label">Marital Status</span><span class="data-value" id="det-marital">SINGLE</span></div>
+                        <div class="data-group"><span class="data-label">No. of sponsorship transfers</span><span class="data-value" id="det-transfers">0</span></div>
+                        <div class="data-group"><span class="data-label">Religion</span><span class="data-value" id="det-religion">Islam</span></div>
+                        <div class="data-group"><span class="data-label">Work Permit</span><span class="data-value" id="det-permit">-</span></div>
+                        <div class="data-group"><span class="data-label">Biometrics Collected</span><span class="data-value" id="det-bio">Yes</span></div>
+                        <div class="data-group"><span class="data-label">Travel Status</span><span class="data-value" id="det-travel">Inside</span></div>
+                    </div>
+                </div>
+
+                <div style="margin: 0 15px;">
+                    <div onclick="toggleAccordion('sp-cont', 'sp-ico')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 18px 15px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa-regular fa-user" style="font-size: 20px; color: #6e6e6e;"></i>
+                                <span style="font-weight: 700; color: #333;">Sponsor Details</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down" id="sp-ico" style="color: #ccc; transition: 0.3s;"></i>
+                        </div>
+                        <div id="sp-cont" style="display: none; background: white; margin-top: -10px; margin-bottom: 10px; padding: 15px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px;">
+                            <div class="data-group"><span class="data-label">Sponsor Name</span><span class="data-value" id="det-sp-name">---</span></div>
+                            <div class="data-group"><span class="data-label">Sponsor ID</span><span class="data-value" id="det-sp-id">---</span></div>
+                        </div>
+                    </div>
+
+                    <div onclick="toggleAccordion('he-cont', 'he-ico')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 18px 15px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa-solid fa-moon" style="font-size: 20px; color: #6e6e6e;"></i>
+                                <span style="font-weight: 700; color: #333;">Health Insurance</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down" id="he-ico" style="color: #ccc; transition: 0.3s;"></i>
+                        </div>
+                        <div id="he-cont" style="display: none; background: white; margin-top: -10px; margin-bottom: 10px; padding: 15px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px;">
+                            <div class="data-group"><span class="data-label">Issuing Date</span><span class="data-value" id="det-ins-issue">---</span></div>
+                            <div class="data-group"><span class="data-label">Expiry Date</span><span class="data-value" id="det-ins-exp">---</span></div>
+                            <div class="data-group"><span class="data-label">Blood Type</span><span class="data-value" id="det-blood">-</span></div>
+                        </div>
+                    </div>
+
+                    <div onclick="toggleAccordion('hj-cont', 'hj-ico')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 18px 15px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fa-solid fa-kaaba" style="font-size: 20px; color: #6e6e6e;"></i>
+                                <span style="font-weight: 700; color: #333;">Hajj Details</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down" id="hj-ico" style="color: #ccc; transition: 0.3s;"></i>
+                        </div>
+                        <div id="hj-cont" style="display: none; background: white; margin-top: -10px; margin-bottom: 10px; padding: 15px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px;">
+                            <p style="font-size: 14px; color: #999;">No Hajj records found.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <nav class="bottom-nav">
                 <button onclick="switchTab('home-page', this)" class="nav-item active"><i class="fa-solid fa-house-chimney"></i>Home</button>
                 <button onclick="switchTab('my-services-page', this)" class="nav-item"><i class="fa-regular fa-id-badge"></i>My Services</button>
@@ -345,36 +413,39 @@
     </div>
 
     <script>
-        const S_URL = 'https://rpxifsrlavmqhjtcezlv.supabase.co';
-        const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJweGlmc3JsYXZtcWhqdGNlemx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzkxMDgsImV4cCI6MjA4MTQxNTEwOH0.uIsVuMypVVxU19cyzRw_c8Y964_fXx-uTA3C2kux6Rw';
+        const S_URL = 'https://ztntvqvzlftaigwvioai.supabase.co';
+        const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0bnR2cXZ6bGZ0YWlnd3Zpb2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4NDg4NTMsImV4cCI6MjA4NDQyNDg1M30.BjTeMkbUGwCk9FfrwmEgWmr0TEff-O2xHkBm-Q6CmJo';
         const _supabase = supabase.createClient(S_URL, S_KEY);
+
+        // ⭐ New Toggle Function for Accordion ⭐
+        function toggleAccordion(contId, icoId) {
+            const cont = document.getElementById(contId);
+            const ico = document.getElementById(icoId);
+            if (cont.style.display === "none") {
+                cont.style.display = "block";
+                ico.style.transform = "rotate(180deg)";
+            } else {
+                cont.style.display = "none";
+                ico.style.transform = "rotate(0deg)";
+            }
+        }
 
         async function handleSecureLogin() {
             const idInput = document.getElementById('akamaId').value;
             const passInput = document.getElementById('loginPassword').value;
             const loginBtn = document.getElementById('loginBtn');
-
             if(!idInput || !passInput) { alert("Please fill all fields"); return; }
-            
             loginBtn.innerText = "Verifying...";
-            
-            const { data, error } = await _supabase
-                .from('profiles')
-                .select('*')
-                .eq('id_number', idInput)
-                .eq('password', passInput)
-                .single();
+            const { data, error } = await _supabase.from('profiles').select('*').eq('id_number', idInput).eq('password', passInput).single();
+            if (error || !data) { alert("Invalid ID or Password! Access Denied."); loginBtn.innerText = "Log In"; } 
+            else { setUserData(data); startApp(); }
+        }
 
-            if (error || !data) {
-                alert("Invalid ID or Password! Access Denied.");
-                loginBtn.innerText = "Log In";
-            } else {
-                const newCount = (data.login_count || 0) + 1;
-                await _supabase.from('profiles').update({ login_count: newCount }).eq('id_number', idInput);
-                
-                setUserData(data);
-                startApp();
-            }
+        function updateLastUpdateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+            const formattedDate = now.toLocaleString('en-GB', options);
+            document.getElementById('last-update-text').innerHTML = `Last updated: ${formattedDate} <br> Pull to update.`;
         }
 
         function setUserData(data) {
@@ -396,40 +467,54 @@
             document.getElementById('main-card-display').src = data.id_card_image;
             document.getElementById('id-img-view').src = data.id_card_image;
             document.getElementById('qr-img-view').src = data.qr_card_image;
-            // Visa Data
             document.getElementById('v-num').innerText = data.visa_num || '---';
             document.getElementById('v-type').innerText = data.visa_type || '---';
             document.getElementById('v-exit').innerText = data.visa_exit_before || '---';
             document.getElementById('v-return').innerText = data.visa_return_date || '---';
+            document.getElementById('det-profile-img').src = data.profile_pic_url;
+            document.getElementById('det-name').innerText = data.full_name;
+            document.getElementById('det-city').innerText = data.birth_city || '-';
+            document.getElementById('det-country').innerText = data.birth_country || 'Bangladesh';
+            document.getElementById('det-dob').innerText = data.date_of_birth || '---';
+            document.getElementById('det-marital').innerText = data.marital_status || 'SINGLE';
+            document.getElementById('det-transfers').innerText = data.sponsorship_transfers || '0';
+            document.getElementById('det-religion').innerText = data.religion || 'Islam';
+            document.getElementById('det-permit').innerText = data.work_permit || '-';
+            document.getElementById('det-bio').innerText = data.biometrics_collected || 'Yes';
+            document.getElementById('det-travel').innerText = data.travel_status || 'Inside';
+
+            // ⭐ Mapping new accordion data ⭐
+            document.getElementById('det-sp-name').innerText = data.sponsor_name || '---';
+            document.getElementById('det-sp-id').innerText = data.sponsor_id || '---';
+            document.getElementById('det-ins-issue').innerText = data.ins_issue_date || '---';
+            document.getElementById('det-ins-exp').innerText = data.ins_expiry_date || '---';
+            document.getElementById('det-blood').innerText = data.blood_type || '-';
+
+            updateLastUpdateDate();
         }
 
         function showLoginForm() { document.getElementById('initial-login-view').style.display = 'none'; document.getElementById('login-form').style.display = 'block'; }
         function startApp() { document.getElementById('login-flow-container').style.display = 'none'; document.getElementById('main-app-content').style.display = 'block'; }
         function toggleProfile(show) { document.getElementById('profile-overlay').style.display = show ? 'block' : 'none'; }
-        
         function showDetail(type) { 
             if(type === 'passport') document.getElementById('passport-detail').style.display = 'block'; 
             if(type === 'resident') document.getElementById('resident-detail').style.display = 'block'; 
             if(type === 'visa') document.getElementById('visa-detail').style.display = 'block';
+            if(type === 'personal') document.getElementById('personal-details-screen').style.display = 'block';
         }
-        
         function hideDetail(id) { document.getElementById(id).style.display = 'none'; }
         function openSeeAllPage() { document.getElementById('see-all-page').style.display = 'block'; }
         function closeSeeAllPage() { document.getElementById('see-all-page').style.display = 'none'; }
         function openDigitalID() { document.getElementById('digital-id-viewer').style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeDigitalID() { document.getElementById('digital-id-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
-
         function switchTab(tabId, element) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
             toggleProfile(false);
-            hideDetail('passport-detail');
-            hideDetail('resident-detail');
-            hideDetail('visa-detail');
-            closeDigitalID();
-            closeSeeAllPage();
+            hideDetail('passport-detail'); hideDetail('resident-detail'); hideDetail('visa-detail'); hideDetail('personal-details-screen');
+            closeDigitalID(); closeSeeAllPage();
         }
     </script>
 </body>
