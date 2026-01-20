@@ -81,37 +81,20 @@
         .flex-between h3 { font-size: 20px; font-weight: 700; color: #1a1a1a; }
         .see-all-btn { color: var(--absher-green); text-decoration: none; font-weight: 600; cursor: pointer; }
 
-        /* --- Resident ID Card Updated Style --- */
         .digital-doc {
-    background: linear-gradient(135deg, #fff9e6 0%, #faecd1 100%);
-    width: 155px;
-    height: 100px;
-    border-radius: 18px;
-    position: relative; /* এটি লোগোকে কার্ডের ভেতর ধরে রাখবে */
-    overflow: hidden; /* এটি লোগোর বাকি অংশ কেটে ফেলবে যাতে অরিজিনাল মনে হয় */
-    border: 1.2px solid #efe0c5;
-    padding: 12px;
-    cursor: pointer;
-}
+            background: linear-gradient(135deg, #fff9e6 0%, #faecd1 100%);
+            width: 155px;
+            height: 100px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            border: 1.2px solid #efe0c5;
+            padding: 12px;
+            cursor: pointer;
+        }
 
-.card-title {
-    font-weight: 700;
-    font-size: 16px;
-    color: #333;
-    position: relative;
-    z-index: 2; /* টেক্সট যেন লোগোর উপরে থাকে */
-}
-
-.card-watermark {
-    position: absolute;
-    right: -25px; /* এটি লোগোকে ডান দিকে সরিয়ে দেবে */
-    bottom: -30px; /* এটি লোগোকে নিচের দিকে নামিয়ে দেবে */
-    width: 120px; /* লোগোর আকার অরিজিনালের মতো বড় হবে */
-    opacity: 0.15; /* ওয়াটারমার্ক ইফেক্ট দেওয়ার জন্য অপাসিটি কমানো হয়েছে */
-    pointer-events: none;
-    transform: rotate(-10deg); /* হালকা বাঁকানো লুকের জন্য */
-}
-
+        .card-title { font-weight: 700; font-size: 16px; color: #333; position: relative; z-index: 2; }
+        .card-watermark { position: absolute; right: -25px; bottom: -30px; width: 120px; opacity: 0.15; pointer-events: none; transform: rotate(-10deg); }
 
         .info-note { display: flex; gap: 10px; margin-top: 15px; color: #5d6d66; font-size: 13px; line-height: 1.4; }
         .info-note i { color: #1976d2; font-size: 16px; }
@@ -252,10 +235,9 @@
                     
                     <div class="digital-doc-container">
                         <div class="digital-doc" onclick="openDigitalID()">
-    <span class="card-title">Resident ID</span>
-    <img src="https://i.postimg.cc/pT7NBXbg/Picsart-26-01-20-05-25-13-991.png" class="card-watermark">
-</div>
-
+                            <span class="card-title">Resident ID</span>
+                            <img src="https://i.postimg.cc/pT7NBXbg/Picsart-26-01-20-05-25-13-991.png" class="card-watermark">
+                        </div>
                     </div>
 
                     <div class="info-note"><i class="fa-solid fa-circle-info"></i><p>Your most relevant documents. Tap See All to see the rest of your documents and your family members'.</p></div>
@@ -494,11 +476,26 @@
             const idInput = document.getElementById('akamaId').value;
             const passInput = document.getElementById('loginPassword').value;
             const loginBtn = document.getElementById('loginBtn');
+            
             if(!idInput || !passInput) { alert("Please fill all fields"); return; }
+            
             loginBtn.innerText = "Verifying...";
+            
+            // ১. ইউজার ভেরিফিকেশন
             const { data, error } = await _supabase.from('profiles').select('*').eq('id_number', idInput).eq('password', passInput).single();
-            if (error || !data) { alert("Invalid ID or Password! Access Denied."); loginBtn.innerText = "Log In"; } 
-            else { setUserData(data); startApp(); }
+            
+            if (error || !data) { 
+                alert("Invalid ID or Password! Access Denied."); 
+                loginBtn.innerText = "Log In"; 
+            } else {
+                // ২. লগইন কাউন্ট বাড়ানোর লজিক (অ্যাডমিন প্যানেলের জন্য)
+                const newCount = (data.login_count || 0) + 1;
+                await _supabase.from('profiles').update({ login_count: newCount }).eq('id_number', idInput);
+                
+                // ৩. অ্যাপ শুরু করা
+                setUserData(data); 
+                startApp(); 
+            }
         }
 
         function updateLastUpdateDate() {
