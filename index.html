@@ -21,17 +21,36 @@
         .app-container { width: 100%; max-width: 480px; background: var(--light-green); position: relative; }
 
         /* --- ১. লগইন ফ্লো স্ক্রিন --- */
-        #login-flow-container { background: var(--light-green); min-height: 100vh; padding: 20px; text-align: center; overflow-y: auto;}
-        .login-logo { margin: 40px 0 20px; height: 90px; }
+        #login-flow-container { background: #ffffff; min-height: 100vh; padding: 15px 25px; display: flex; flex-direction: column; overflow-y: auto;}
+        
+        .login-header-nav { margin-bottom: 5px; text-align: left; }
+        .back-btn-ui { font-size: 28px; color: #1b5e20; cursor: pointer; text-decoration: none; }
+
+        .login-logo-area { display: flex; justify-content: center; margin: 15px 0; }
+        .login-logo-area img { height: 90px; object-fit: contain; }
+
+        #initial-login-view { text-align: center; }
         .welcome-title { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 30px; }
         .btn-login-main { background: var(--absher-green); color: white; padding: 18px; border-radius: 12px; width: 100%; font-size: 18px; border: none; font-weight: 700; cursor: pointer; }
 
-        #login-form { display: none; text-align: left; padding-top: 20px; }
-        .input-group { background: white; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 13px; color: var(--gray-text); margin-bottom: 5px; font-weight: 600; }
-        .input-group input { width: 100%; border: none; font-size: 18px; font-weight: 700; outline: none; }
+        #login-form { display: none; flex-direction: column; height: 100%; flex-grow: 1; }
+        .login-title-new { text-align: center; font-size: 26px; font-weight: bold; color: #1a1a1a; margin-bottom: 25px; }
+        
+        .input-container-new { position: relative; margin-bottom: 18px; width: 100%; }
+        .input-container-new label { position: absolute; top: 8px; left: 15px; font-size: 13px; color: #757575; pointer-events: none; }
+        .input-field-new { width: 100%; padding: 26px 15px 10px 15px; font-size: 16px; border: 1.5px solid #e0e0e0; border-radius: 12px; outline: none; color: #333; background: #fff; }
+        .input-field-new:focus { border-color: #00695c; }
 
-        .forgot-pass { color: var(--absher-green); font-weight: 700; text-align: center; margin-top: 20px; display: block; font-size: 15px; cursor: pointer; }
+        .options-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .checkbox-ui { width: 18px; height: 18px; margin-right: 10px; accent-color: #00695c; }
+        .options-row label { font-size: 15px; color: #616161; }
+
+        .info-section-ui { display: flex; gap: 10px; color: #616161; font-size: 13px; line-height: 1.4; margin-bottom: 30px; }
+        .info-icon-ui { background: #1976d2; color: white; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; margin-top: 2px; }
+
+        .footer-buttons-new { margin-top: auto; display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
+        .login-btn-final { background-color: #84b09b; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; }
+        .forgot-pass-new { text-align: center; color: #00695c; text-decoration: none; font-weight: 600; font-size: 16px; display: block; }
 
         .public-services-wrap { margin-top: 40px; text-align: left; }
         .public-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -44,13 +63,11 @@
         #main-app-content { display: none; }
         .page-content { display: none; width: 100%; padding-bottom: 110px; }
         .page-content.active { display: block; }
-
         .shared-header { padding: 20px; background: var(--light-green); }
         .shared-title { font-size: 32px; font-weight: 800; color: #1a1a1a; margin: 10px 0 20px; }
         .search-bar-container { background: #e6ecea; border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
         .search-bar-container i { color: #888; font-size: 20px; }
         .search-bar-container input { background: transparent; border: none; outline: none; font-size: 18px; color: #555; width: 100%; }
-
         .home-header { background: var(--white); padding: 10px 20px 25px; border-bottom: 1px solid var(--border-color); }
         .top-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .logo-box img { height: 40px; }
@@ -59,32 +76,55 @@
         .profile-card-main img { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; }
         .profile-card-main h2 { font-size: 19px; font-weight: 700; color: #222; }
         .profile-card-main p { font-size: 14px; color: var(--gray-text); }
-
         .section-wrap { padding: 20px; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .flex-between h3 { font-size: 20px; font-weight: 700; color: #1a1a1a; }
         .see-all-btn { color: var(--absher-green); text-decoration: none; font-weight: 600; cursor: pointer; }
 
-        .digital-doc { background: linear-gradient(135deg, #fff9e6 0%, #faecd1 100%); border-radius: 18px; height: 115px; padding: 22px; position: relative; border: 1.5px solid #efe0c5; cursor: pointer; }
-        .digital-doc span { font-weight: 700; font-size: 17px; }
-        .watermark-img { position: absolute; right: 10px; bottom: 0; width: 110px; opacity: 0.12; }
+        /* --- Resident ID Card Updated Style --- */
+        .digital-doc {
+    background: linear-gradient(135deg, #fff9e6 0%, #faecd1 100%);
+    width: 155px;
+    height: 100px;
+    border-radius: 18px;
+    position: relative; /* এটি লোগোকে কার্ডের ভেতর ধরে রাখবে */
+    overflow: hidden; /* এটি লোগোর বাকি অংশ কেটে ফেলবে যাতে অরিজিনাল মনে হয় */
+    border: 1.2px solid #efe0c5;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+    position: relative;
+    z-index: 2; /* টেক্সট যেন লোগোর উপরে থাকে */
+}
+
+.card-watermark {
+    position: absolute;
+    right: -25px; /* এটি লোগোকে ডান দিকে সরিয়ে দেবে */
+    bottom: -30px; /* এটি লোগোকে নিচের দিকে নামিয়ে দেবে */
+    width: 120px; /* লোগোর আকার অরিজিনালের মতো বড় হবে */
+    opacity: 0.15; /* ওয়াটারমার্ক ইফেক্ট দেওয়ার জন্য অপাসিটি কমানো হয়েছে */
+    pointer-events: none;
+    transform: rotate(-10deg); /* হালকা বাঁকানো লুকের জন্য */
+}
+
 
         .info-note { display: flex; gap: 10px; margin-top: 15px; color: #5d6d66; font-size: 13px; line-height: 1.4; }
         .info-note i { color: #1976d2; font-size: 16px; }
-
         .vehicle-card { background: var(--white); padding: 20px; border-radius: 18px; display: flex; align-items: center; gap: 18px; margin-bottom: 15px; }
         .vehicle-card i { font-size: 38px; color: var(--absher-green); }
-
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .service-box { background: var(--white); padding: 22px; border-radius: 18px; display: flex; flex-direction: column; gap: 12px; cursor: pointer; }
         .service-box i { font-size: 34px; color: var(--absher-green); }
         .service-box span { font-weight: 700; font-size: 15.5px; color: #222; }
-
         .services-grid-new { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
         .service-card-new { background: var(--white); border-radius: 15px; padding: 20px; min-height: 140px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px; border: 1px solid #f0f0f0; }
         .service-card-new i { font-size: 32px; color: var(--absher-green); }
         .service-card-new span { font-size: 16px; font-weight: 700; color: #333; line-height: 1.2; }
-
         .empty-state-container { text-align: center; padding: 60px 20px; color: #333; }
         .empty-state-container i.main-icon { font-size: 80px; color: #6e6e6e; margin-bottom: 30px; display: block; opacity: 0.5; }
         .empty-state-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
@@ -130,24 +170,12 @@
         .viewer-header { padding: 20px; position: sticky; top: 0; z-index: 10; }
         .viewer-header i { color: white; font-size: 28px; cursor: pointer; }
         .viewer-content { display: flex; flex-direction: column; align-items: center; padding: 0 15px 150px; }
-        
-        .id-card-img-landscape { 
-            width: 145%; 
-            max-width: none; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            transform: rotate(90deg); 
-            margin-top: 130px; 
-            margin-bottom: 150px;
-        }
-        
-        .qr-card-img-scroll { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .id-card-img-landscape, .qr-card-img-scroll { width: 145%; max-width: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: rotate(90deg); margin-top: 130px; margin-bottom: 130px; }
 
         .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0 28px; border-top: 1px solid var(--border-color); z-index: 4000; }
         .nav-item { text-align: center; color: #9da8a4; text-decoration: none; font-size: 11px; font-weight: 700; flex: 1; border: none; background: none; cursor: pointer; transition: 0.3s; }
         .nav-item i { font-size: 22px; margin-bottom: 6px; display: block; }
         .nav-item.active { color: var(--absher-green); }
-
         .fab-msg { position: fixed; bottom: 105px; right: 20px; background: #004d30; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 26px; box-shadow: 0 5px 15px rgba(0,0,0,0.25); z-index: 1000; }
     </style>
 </head>
@@ -155,8 +183,14 @@
 
     <div class="app-container">
         <div id="login-flow-container">
-            <div style="text-align: right; color: var(--absher-green); font-size: 24px;"><i class="fa-solid fa-gear"></i> <i class="fa-solid fa-bell" style="margin-left: 15px;"></i></div>
-            <img src="https://i.postimg.cc/3Jphft4m/Picsart-25-12-26-13-57-11-843.png" class="login-logo">
+            <div class="login-header-nav">
+                <span class="back-btn-ui" onclick="location.reload()">←</span>
+            </div>
+            
+            <div class="login-logo-area">
+                <img src="https://i.postimg.cc/3Jphft4m/Picsart-25-12-26-13-57-11-843.png" alt="Logo">
+            </div>
+
             <div id="initial-login-view">
                 <h1 class="welcome-title">Absher E-Services 24/7</h1>
                 <button class="btn-login-main" onclick="showLoginForm()">Log In</button>
@@ -170,12 +204,34 @@
                     </div>
                 </div>
             </div>
+
             <div id="login-form">
-                <h2 style="text-align: center; font-size: 26px; margin-bottom: 30px;">Log In to Absher</h2>
-                <div class="input-group"><label>Username or ID Number</label><input type="text" id="akamaId" placeholder="Enter ID Number"></div>
-                <div class="input-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-                <button class="btn-login-main" id="loginBtn" onclick="handleSecureLogin()">Log In</button>
-                <span class="forgot-pass">Forgot Password?</span>
+                <div class="login-title-new">Log In to Absher</div>
+                
+                <div class="input-container-new">
+                    <label>Username or ID Number</label>
+                    <input type="text" id="akamaId" class="input-field-new" placeholder="Enter Username or ID Number">
+                </div>
+
+                <div class="input-container-new">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" class="input-field-new" placeholder="Enter Password">
+                </div>
+
+                <div class="options-row">
+                    <input type="checkbox" id="keep" class="checkbox-ui">
+                    <label for="keep">Keep me logged in</label>
+                </div>
+
+                <div class="info-section-ui">
+                    <div class="info-icon-ui">i</div>
+                    <p>Enable biometrics use on your Settings to be able to check the option to stay logged in</p>
+                </div>
+
+                <div class="footer-buttons-new">
+                    <button class="login-btn-final" id="loginBtn" onclick="handleSecureLogin()">Log In</button>
+                    <a href="#" class="forgot-pass-new">Forgot Password</a>
+                </div>
             </div>
         </div>
 
@@ -193,11 +249,16 @@
                 </header>
                 <div class="section-wrap">
                     <div class="flex-between"><h3>My Digital Documents</h3><a href="#" class="see-all-btn" onclick="openSeeAllPage()">See All</a></div>
-                    <div class="digital-doc" onclick="openDigitalID()">
-                        <span>Resident ID</span>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Saudi_Arabia_Coat_of_arms.svg" class="watermark-img">
+                    
+                    <div class="digital-doc-container">
+                        <div class="digital-doc" onclick="openDigitalID()">
+    <span class="card-title">Resident ID</span>
+    <img src="https://i.postimg.cc/pT7NBXbg/Picsart-26-01-20-05-25-13-991.png" class="card-watermark">
+</div>
+
                     </div>
-                    <div class="info-note"><i class="fa-solid fa-circle-info"></i><p>Your most relevant documents. Tap See All to see the rest.</p></div>
+
+                    <div class="info-note"><i class="fa-solid fa-circle-info"></i><p>Your most relevant documents. Tap See All to see the rest of your documents and your family members'.</p></div>
                 </div>
                 <div class="section-wrap">
                     <h3 style="margin-bottom: 18px;">Quick Access</h3>
@@ -417,7 +478,6 @@
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0bnR2cXZ6bGZ0YWlnd3Zpb2FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4NDg4NTMsImV4cCI6MjA4NDQyNDg1M30.BjTeMkbUGwCk9FfrwmEgWmr0TEff-O2xHkBm-Q6CmJo';
         const _supabase = supabase.createClient(S_URL, S_KEY);
 
-        // ⭐ New Toggle Function for Accordion ⭐
         function toggleAccordion(contId, icoId) {
             const cont = document.getElementById(contId);
             const ico = document.getElementById(icoId);
@@ -482,19 +542,22 @@
             document.getElementById('det-permit').innerText = data.work_permit || '-';
             document.getElementById('det-bio').innerText = data.biometrics_collected || 'Yes';
             document.getElementById('det-travel').innerText = data.travel_status || 'Inside';
-
-            // ⭐ Mapping new accordion data ⭐
             document.getElementById('det-sp-name').innerText = data.sponsor_name || '---';
             document.getElementById('det-sp-id').innerText = data.sponsor_id || '---';
             document.getElementById('det-ins-issue').innerText = data.ins_issue_date || '---';
             document.getElementById('det-ins-exp').innerText = data.ins_expiry_date || '---';
             document.getElementById('det-blood').innerText = data.blood_type || '-';
-
             updateLastUpdateDate();
         }
 
-        function showLoginForm() { document.getElementById('initial-login-view').style.display = 'none'; document.getElementById('login-form').style.display = 'block'; }
-        function startApp() { document.getElementById('login-flow-container').style.display = 'none'; document.getElementById('main-app-content').style.display = 'block'; }
+        function showLoginForm() { 
+            document.getElementById('initial-login-view').style.display = 'none'; 
+            document.getElementById('login-form').style.display = 'flex'; 
+        }
+        function startApp() { 
+            document.getElementById('login-flow-container').style.display = 'none'; 
+            document.getElementById('main-app-content').style.display = 'block'; 
+        }
         function toggleProfile(show) { document.getElementById('profile-overlay').style.display = show ? 'block' : 'none'; }
         function showDetail(type) { 
             if(type === 'passport') document.getElementById('passport-detail').style.display = 'block'; 
